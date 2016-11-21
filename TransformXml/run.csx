@@ -8,6 +8,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     log.Verbose($"C# HTTP trigger function processed a request. RequestUri={req.RequestUri}");
 
+    var tempPath = HttpContext.Current.Server.MapPath("~/App_Data/Temp/" + Guid.NewGuid());
+    Directory.CreateDirectory(tempPath);
+
     var streamProvider = new MultipartFormDataStreamProvider(tempPath);
     var readResult = await req.Content.ReadAsMultipartAsync(streamProvider);
 
