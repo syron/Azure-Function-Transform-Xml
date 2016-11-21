@@ -9,17 +9,17 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     log.Verbose($"C# HTTP trigger function processed a request. RequestUri={req.RequestUri}");
 
     var streamProvider = new MultipartFormDataStreamProvider(tempPath);
-    var readResult = await Request.Content.ReadAsMultipartAsync(streamProvider);
+    var readResult = await req.Content.ReadAsMultipartAsync(streamProvider);
 
     if (readResult.FormData["xml"] == null)
     {
-        return Request.CreateResponse(HttpStatusCode.BadRequest);
+        return req.CreateResponse(HttpStatusCode.BadRequest);
     }
 
     
     if (readResult.FormData["xslt"] == null)
     {
-        return Request.CreateResponse(HttpStatusCode.BadRequest);
+        return req.CreateResponse(HttpStatusCode.BadRequest);
     }
 
     // Get request body
